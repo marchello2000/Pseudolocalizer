@@ -95,10 +95,45 @@
 
         public static string Transform(string value)
         {
-            return new string(
-                value.ToCharArray()
-                    .Select(x => Transform(x))
-                    .ToArray());
+            string result = string.Empty;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] == '{')
+                {
+                    // Eat all chars till end of interpolation string
+                    while (i < value.Length)
+                    {
+                        result += value[i];
+
+                        if (value[i] == '}')
+                        {
+                            break;
+                        }
+                        i++;
+                    };
+                }
+                else if (value[i] == '<')
+                {
+                    // Eat all chars till end of interpolation string
+                    while (i < value.Length)
+                    {
+                        result += value[i];
+
+                        if (value[i] == '>')
+                        {
+                            break;
+                        }
+                        i++;
+                    };
+                }
+                else
+                {
+                    result += Transform(value[i]);
+                }
+            }
+
+            return result;
         }
 
         private static char Transform(char value)

@@ -82,61 +82,20 @@
 
         public override void Transform(Stream inputStream, Stream outputStream)
         {
-            TextReader reader = new StreamReader(inputStream);
-            TextWriter writer = new StreamWriter(outputStream);
-
-            var yaml = new YamlStream();
-            yaml.Load(reader);
-
-            var mapping = (YamlMappingNode)yaml.Documents[0].RootNode;
-
-            ProcessNodes(mapping);
-
-            yaml.Save(writer, false);
-            /*
-
-
-
-
-
-
-            while (!reader.EndOfStream)
+            using (TextReader reader = new StreamReader(inputStream))
+            using (TextWriter writer = new StreamWriter(outputStream))
             {
-                string inLine = reader.ReadLine();
-                string outLine;
+                var yaml = new YamlStream();
+                yaml.Load(reader);
 
-                if ((inLine == "---") || (inLine.StartsWith("#")))
+                foreach (YamlDocument doc in yaml.Documents)
                 {
-                    outLine = inLine;
-                }
-                else
-                {
-                    int index = inLine.IndexOf(":");
-                    string key = inLine.Substring(0, index - 1);
-
-                    string value = null;
-
-                    if (index < inLine.Length)
-                    {
-                        value = inLine.Substring(index + 1);
-                    }
-
-                    if (string.IsNullOrEmpty(value))
-                    {
-                        outLine = $"{key}:";
-                    }
-                    else
-                    {
-                        var args = new TransformStringEventArgs { Value = value };
-                        OnTransformString(args);
-                        outLine = $"{key}: {args.Value}";
-                    }
+                    var mapping = (YamlMappingNode)doc.RootNode;
+                    ProcessNodes(mapping);
                 }
 
-                writer.WriteLine(outLine);
+                yaml.Save(writer, false);
             }
-            */
         }
-
     }
 }
