@@ -38,6 +38,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.1.1-pre325\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accents.cs" />
@@ -48,6 +52,9 @@
     <Compile Include="ResxProcessor.cs" />
     <Compile Include="TransformStringEventArgs.cs" />
     <Compile Include="Underscores.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

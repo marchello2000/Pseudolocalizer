@@ -146,7 +146,17 @@
                 using (var inputStream = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
                 using (var outputStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write))
                 {
-                    var processor = new ResxProcessor();
+                    ResxProcessor processor;
+
+                    if (inputFileName.EndsWith("yml"))
+                    {
+                        processor = new YmlProcessor();
+                    }
+                    else
+                    {
+                        processor = new ResxProcessor();
+                    }
+
                     if (EnableExtraLength || UseDefaultOptions)
                     {
                         processor.TransformString += (s, e) => { e.Value = ExtraLength.Transform(e.Value); };
